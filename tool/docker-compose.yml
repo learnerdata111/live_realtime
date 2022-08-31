@@ -42,8 +42,8 @@ services:
     ports:
       - 3306:3306
     volumes:
-    - /Users/yuyan/Desktop/docker/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
-    - /Users/yuyan/Desktop/docker/init.d:/docker-entrypoint-initdb.d/init.d
+    - ./conf/my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf
+    - ./conf/init.d:/docker-entrypoint-initdb.d/init.d
     networks:
       - canal
 
@@ -55,8 +55,8 @@ services:
     ports:
       - 11111:11111
     volumes:
-      - /Users/yuyan/Desktop/docker/canal.properties:/home/admin/canal-server/conf/canal.properties
-      - /Users/yuyan/Desktop/docker/instance.properties:/home/admin/canal-server/conf/data_pipe/instance.properties
+      - ./conf/canal.properties:/home/admin/canal-server/conf/canal.properties
+      - ./conf/instance.properties:/home/admin/canal-server/conf/data_pipe/instance.properties
     restart: unless-stopped
     networks:
       - canal
