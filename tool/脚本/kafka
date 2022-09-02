@@ -22,3 +22,7 @@ kafka-topics.sh --describe --bootstrap-server localhost:9092
 kafka-console-producer.sh --topic export_data_pipe  --broker-list localhost:9092
 4、阅读数据
 kafka-console-consumer.sh --topic export_data_pipe --from-beginning --bootstrap-server localhost:9092
+
+
+-- 可视化工具
+docker run -itd --name=kafka-manager -p 9000:9000 -e ZK_HOSTS="192.168.220.150:2181" sheepkiller/kafka-manager
