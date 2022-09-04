@@ -1,0 +1,28 @@
+docker exec -it canal_kafka_1 kafka-console-consumer.sh
+-topic binlog_data_pipe --from-beginning --bootstrap-server localhost:9092
+
+查看具体topic里面的数据
+kafka-console-consumer.sh --topic binlog_data_pipe --from-beginning --bootstrap-server localhost:9092
+-- 创建topic
+kafka-topics.sh --create --topic export_data_pipe --bootstrap-server localhost:9092
+-- 显示topic
+kafka-topics.sh --describe --topic binlog_data_pipe --bootstrap-server localhost:9092
+-- 写入数据
+kafka-console-producer.sh --topic binlog_data_pipe --bootstrap-server localhost:9092
+		This is my first event
+		This is my second event
+-- 阅读
+kafka-console-consumer.sh --topic binlog_data_pipe --from-beginning --bootstrap-server localhost:9092
+1、创建topic
+kafka-topics.sh --create --topic export_data_pipe --replication-factor 1 --partitions 1 --bootstrap-server localhost:9092
+2、查看topic
+kafka-topics.sh --describe --topic export_data_pipe --bootstrap-server localhost:9092
+kafka-topics.sh --describe --bootstrap-server localhost:9092
+3、写入数据
+kafka-console-producer.sh --topic export_data_pipe  --broker-list localhost:9092
+4、阅读数据
+kafka-console-consumer.sh --topic export_data_pipe --from-beginning --bootstrap-server localhost:9092
+
+
+-- 可视化工具
+docker run -itd --name=kafka-manager -p 9000:9000 -e ZK_HOSTS="192.168.220.150:2181" sheepkiller/kafka-manager
