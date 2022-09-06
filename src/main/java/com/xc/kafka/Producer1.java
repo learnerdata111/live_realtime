@@ -1,4 +1,4 @@
-package com.xc;
+package com.xc.kafka;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;

@@ -1,4 +1,4 @@
-package com.xc;
+package com.xc.kafka;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.operators.AggregateOperator;
