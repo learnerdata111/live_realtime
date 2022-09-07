@@ -164,17 +164,6 @@
                 <version>${flink.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.alibaba.ververica</groupId>
-                <artifactId>ververica-connector-datahub</artifactId>
-                <version>${datahub.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.alibaba.ververica</groupId>
-                        <artifactId>sts-credential-fetcher</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
 
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
