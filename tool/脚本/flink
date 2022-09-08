@@ -1,0 +1,8 @@
+-- 启动本地
+sh /bin/start-cluster.sh
+-- web页面
+-- http://localhost:8081  flink页面
+-- 提交作业
+sh ./bin/flink run examples/streaming/WordCount.jar
+-- 停止集群
+$ ./bin/stop-cluster.sh
