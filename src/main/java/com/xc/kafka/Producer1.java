@@ -14,7 +14,6 @@ public class Producer1 {
         // 1. 创建 kafka 生产者的配置对象
         Properties properties = new Properties();
         // 2. 给 kafka 配置对象添加配置信息：bootstrap.servers
-        //哭了 我又哭了
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9093");
 
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");

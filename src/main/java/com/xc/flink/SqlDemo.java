@@ -27,6 +27,9 @@ public class SqlDemo {
                         "'scan.startup.mode' = 'earliest-offset'," +
                         "'format' = 'json')");
 
+
+
+
         String mysql_sql = "CREATE TABLE mysql_sink (\n" +
                             "user_id     VARCHAR,\n" +
                             "user_name   VARCHAR,\n" +
