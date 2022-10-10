@@ -2,3 +2,8 @@
 
 拉镜像创建容器
 docker-compose up -d
+
+
+docker image ls
+docker container ls
+docker exec -it contain_id /bin/bash

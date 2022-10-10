@@ -27,11 +27,14 @@ public class SqlDemo {
                         "'scan.startup.mode' = 'earliest-offset'," +
                         "'format' = 'json')");
 
+
+
+
         String mysql_sql = "CREATE TABLE mysql_sink (\n" +
-                            "user_id     string,\n" +
-                            "user_name   string,\n" +
-                            "work_month  string,\n" +
-                            "work_amount string \n" +
+                            "user_id     VARCHAR,\n" +
+                            "user_name   VARCHAR,\n" +
+                            "work_month  VARCHAR,\n" +
+                            "work_amount VARCHAR \n" +
                             ") WITH (\n" +
                             "'connector' = 'jdbc',\n" +
                             "'url' = 'jdbc:mysql://localhost:3306/data_pipe" +
