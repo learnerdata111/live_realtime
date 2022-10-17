@@ -13,3 +13,6 @@ $ ./bin/stop-cluster.sh
 开启 checkpoint，每隔3秒做一次 checkpoint
  SET execution.checkpointing.interval = 3s;
 
+--终端socket数据写入
+ nc -lk 9999
+
