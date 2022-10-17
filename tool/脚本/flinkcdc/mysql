@@ -1,0 +1,35 @@
+-- Flink SQL CREATE TABLE
+-source
+Flink SQL> CREATE TABLE products (
+    id INT,
+    name STRING,
+    description STRING,
+    PRIMARY KEY (id) NOT ENFORCED
+  ) WITH (
+    'connector' = 'mysql-cdc',
+    'hostname' = 'localhost',
+    'port' = '3306',
+    'username' = 'root',
+    'password' = '123',
+    'database-name' = 'mydb',
+    'table-name' = 'products'
+  );
+
+ --es -sink
+CREATE TABLE enriched_orders (
+    id INT,
+    name STRING,
+    description STRING,
+    PRIMARY KEY (id) NOT ENFORCED
+ ) WITH (
+     'connector' = 'elasticsearch-7',
+     'hosts' = 'http://localhost:9200',
+     'index' = 'enriched_orders'
+ );
+
+-- 插入
+INSERT INTO enriched_orders
+SELECT * FROM products;
+
+
+chmod 644 flink-sql-connector-mysql-cdc-2.0.2.jar

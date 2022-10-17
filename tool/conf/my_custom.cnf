@@ -2,3 +2,4 @@
 log-bin=mysql-bin # 开启 binlog
 binlog-format=ROW # 选择 ROW 模式
 server_id=1
+wait_timeout=86400

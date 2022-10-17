@@ -6,3 +6,10 @@ sh /bin/start-cluster.sh
 sh ./bin/flink run examples/streaming/WordCount.jar
 -- 停止集群
 $ ./bin/stop-cluster.sh
+
+
+--启动Flink SQL CLI -jobmanager
+./bin/sql-client.sh
+开启 checkpoint，每隔3秒做一次 checkpoint
+ SET execution.checkpointing.interval = 3s;
+

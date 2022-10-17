@@ -18,10 +18,12 @@
         <maven-checkstyle-plugin-version>3.0.0</maven-checkstyle-plugin-version>
         <jacoco-version>0.8.2</jacoco-version>
         <fastjson.version>1.2.75</fastjson.version>
-        <mysql.jdbc.version>8.0.18</mysql.jdbc.version>
+        <mysql.jdbc.version>8.0.27</mysql.jdbc.version>
+        <mysql.cdc.version>2.2.0</mysql.cdc.version>
+
         <lombok.version>1.18.10</lombok.version>
         <curator.version>5.1.0</curator.version>
-        <flink.version>1.14.0</flink.version>
+        <flink.version>1.13.2</flink.version>
         <kafka.version>2.2.0</kafka.version>
         <httpclient.version>4.5.13</httpclient.version>
         <hadoop.version>2.8.5</hadoop.version>
@@ -35,6 +37,13 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.jdbc.version}</version>
         </dependency>
+        <!--mysql-cdc-->
+        <dependency>
+            <groupId>com.ververica</groupId>
+            <artifactId>flink-connector-mysql-cdc</artifactId>
+            <version>${mysql.cdc.version}</version>
+        </dependency>
+
         <!--bean和json数据转换-->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -47,10 +56,27 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
+        <!--flink-exec-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-java</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-clients_2.11</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
         <!--flink-table-->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-api-java-bridge_2.11</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+        <!--flink-stream-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-streaming-java_2.11</artifactId>
             <version>${flink.version}</version>
         </dependency>
         <!--kafka-连接-->
@@ -63,184 +89,168 @@
 
 
 
-            <!--springboot依赖-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-starter-parent</artifactId>-->
-<!--                <version>${spring.boot.version}</version>-->
-<!--                <scope>import</scope>-->
-<!--                <type>pom</type>-->
-<!--            </dependency>-->
-            <!--spring-web相关功能-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-starter-web</artifactId>-->
-<!--                <version>${spring.boot.version}</version>-->
-<!--            </dependency>-->
-<!--            &lt;!&ndash;JSP的升级版&ndash;&gt;-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-starter-thymeleaf</artifactId>-->
-<!--                <version>${spring.boot.version}</version>-->
-<!--            </dependency>-->
+        <!--springboot依赖-->
+        <!--            <dependency>-->
+        <!--                <groupId>org.springframework.boot</groupId>-->
+        <!--                <artifactId>spring-boot-starter-parent</artifactId>-->
+        <!--                <version>${spring.boot.version}</version>-->
+        <!--                <scope>import</scope>-->
+        <!--                <type>pom</type>-->
+        <!--            </dependency>-->
+        <!--spring-web相关功能-->
+        <!--            <dependency>-->
+        <!--                <groupId>org.springframework.boot</groupId>-->
+        <!--                <artifactId>spring-boot-starter-web</artifactId>-->
+        <!--                <version>${spring.boot.version}</version>-->
+        <!--            </dependency>-->
+        <!--            &lt;!&ndash;JSP的升级版&ndash;&gt;-->
+        <!--            <dependency>-->
+        <!--                <groupId>org.springframework.boot</groupId>-->
+        <!--                <artifactId>spring-boot-starter-thymeleaf</artifactId>-->
+        <!--                <version>${spring.boot.version}</version>-->
+        <!--            </dependency>-->
 
 
 
-<!--            <dependency>-->
-<!--                <groupId>org.apache.curator</groupId>-->
-<!--                <artifactId>curator-framework</artifactId>-->
-<!--                <version>${curator.version}</version>-->
-<!--            </dependency>-->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>${curator.version}</version>
+        </dependency>
 
-<!--            <dependency>-->
-<!--                <groupId>org.apache.curator</groupId>-->
-<!--                <artifactId>curator-recipes</artifactId>-->
-<!--                <version>${curator.version}</version>-->
-<!--                <exclusions>-->
-<!--                    <exclusion>-->
-<!--                        <groupId>org.apache.zookeeper</groupId>-->
-<!--                        <artifactId>zookeeper</artifactId>-->
-<!--                    </exclusion>-->
-<!--                </exclusions>-->
-<!--            </dependency>-->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>${curator.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.zookeeper</groupId>
+                    <artifactId>zookeeper</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
 
 
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-table-planner_2.11</artifactId>
-                <version>${flink.version}</version>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner_2.11</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-common</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-api-java</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-kafka_2.11</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-json</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-runtime_2.11</artifactId>
+            <version>1.14.2</version>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-statebackend-rocksdb_2.11</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-jdbc_2.11</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>${hadoop.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.zookeeper</groupId>
+                    <artifactId>zookeeper</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-hdfs</artifactId>
+            <version>${hadoop.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>${hadoop.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>19.0</version>
             </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>5.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-actuator</artifactId>
+            <version>2.4.0</version>
+        </dependency>
 
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-table-common</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-table-api-java</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-
-<!--            <dependency>-->
-<!--                <groupId>org.apache.flink</groupId>-->
-<!--                <artifactId>flink-sql-client_2.11</artifactId>-->
-<!--                <version>${flink.version}</version>-->
-<!--            </dependency>-->
-
-
-
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-connector-kafka_2.11</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-
-<!--            <dependency>-->
-<!--                <groupId>org.apache.flink</groupId>-->
-<!--                <artifactId>flink-json</artifactId>-->
-<!--                <version>${flink.version}</version>-->
-<!--            </dependency>-->
-
-            <dependency>
-                <groupId>org.apache.flink</groupId>
-                <artifactId>flink-table-runtime_2.11</artifactId>
-                <version>${flink.version}</version>
-            </dependency>
-
-<!--            <dependency>-->
-<!--                <groupId>org.apache.flink</groupId>-->
-<!--                <artifactId>flink-streaming-java_2.11</artifactId>-->
-<!--                <version>${flink.version}</version>-->
-<!--            </dependency>-->
-
-<!--            <dependency>-->
-<!--                <groupId>org.apache.flink</groupId>-->
-<!--                <artifactId>flink-statebackend-rocksdb_2.11</artifactId>-->
-<!--                <version>${flink.version}</version>-->
-<!--            </dependency>-->
-
-<!--            <dependency>-->
-<!--                <groupId>org.apache.flink</groupId>-->
-<!--                <artifactId>flink-clients_2.11</artifactId>-->
-<!--                <version>${flink.version}</version>-->
-<!--            </dependency>-->
-
-<!--            <dependency>-->
-<!--                <groupId>org.apache.flink</groupId>-->
-<!--                <artifactId>flink-connector-jdbc_2.11</artifactId>-->
-<!--                <version>${flink.version}</version>-->
-<!--            </dependency>-->
-
-
-<!--            <dependency>-->
-<!--                <groupId>org.apache.httpcomponents</groupId>-->
-<!--                <artifactId>httpclient</artifactId>-->
-<!--                <version>${httpclient.version}</version>-->
-<!--            </dependency>-->
-
-            <dependency>
-                <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-common</artifactId>
-                <version>${hadoop.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-log4j12</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.zookeeper</groupId>
-                        <artifactId>zookeeper</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.google.guava</groupId>
-                        <artifactId>guava</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-<!--            <dependency>-->
-<!--                <groupId>org.apache.hadoop</groupId>-->
-<!--                <artifactId>hadoop-hdfs</artifactId>-->
-<!--                <version>${hadoop.version}</version>-->
-<!--            </dependency>-->
-            <dependency>
-                <groupId>org.apache.hadoop</groupId>
-                <artifactId>hadoop-client</artifactId>
-                <version>${hadoop.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-log4j12</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-<!--            <dependency>-->
-<!--                <groupId>com.google.guava</groupId>-->
-<!--                <artifactId>guava</artifactId>-->
-<!--                <version>19.0</version>-->
-<!--            </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-web</artifactId>-->
-<!--            <version>5.3.1</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-actuator</artifactId>-->
-<!--            <version>2.4.0</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>com.google.code.gson</groupId>-->
-<!--            <artifactId>gson</artifactId>-->
-<!--            <version>2.6</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.6</version>
+        </dependency>
     </dependencies>
 
 
@@ -271,7 +281,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
             </plugin>
-    </plugins>
+        </plugins>
 
     </build>
 
