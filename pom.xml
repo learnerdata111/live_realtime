@@ -18,12 +18,12 @@
         <maven-checkstyle-plugin-version>3.0.0</maven-checkstyle-plugin-version>
         <jacoco-version>0.8.2</jacoco-version>
         <fastjson.version>1.2.75</fastjson.version>
-        <mysql.jdbc.version>8.0.27</mysql.jdbc.version>
+        <mysql.jdbc.version>8.0.11</mysql.jdbc.version>
         <mysql.cdc.version>2.2.0</mysql.cdc.version>
 
         <lombok.version>1.18.10</lombok.version>
         <curator.version>5.1.0</curator.version>
-        <flink.version>1.13.2</flink.version>
+        <flink.version>1.13.6</flink.version>
         <kafka.version>2.2.0</kafka.version>
         <httpclient.version>4.5.13</httpclient.version>
         <hadoop.version>2.8.5</hadoop.version>
@@ -37,7 +37,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.jdbc.version}</version>
         </dependency>
-        <!--mysql-cdc-->
+        <!--mysql2es-cdc-->
         <dependency>
             <groupId>com.ververica</groupId>
             <artifactId>flink-connector-mysql-cdc</artifactId>
@@ -62,6 +62,7 @@
             <artifactId>flink-java</artifactId>
             <version>${flink.version}</version>
         </dependency>
+        <!--flink-服务-->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-clients_2.11</artifactId>
@@ -71,6 +72,12 @@
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-api-java-bridge_2.11</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+        <!--flink-sql-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner-blink_2.11</artifactId>
             <version>${flink.version}</version>
         </dependency>
         <!--flink-stream-->
@@ -137,6 +144,7 @@
             <artifactId>flink-table-planner_2.11</artifactId>
             <version>${flink.version}</version>
         </dependency>
+
 
         <dependency>
             <groupId>org.apache.flink</groupId>

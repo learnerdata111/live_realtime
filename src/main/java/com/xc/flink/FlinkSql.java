@@ -13,20 +13,18 @@ public class FlinkSql {
 
         //TODO 2,使用DDL方式建表
         tableEnv.executeSql(
-                "CREATE TABLE products ( " +
-               "    id INT NOT NULL,    "      +
-               "    name STRING NOT NULL,    "      +
-               "    description STRING NOT NULL ,    "      +
-               "    PRIMARY KEY (id) NOT ENFORCED    "   +
-               "    ) WITH ( " +
-               "            'connector' = 'mysql-cdc', " +
-               "            'hostname' = 'localhost', " +
-               "            'port' = '3306', " +
-               "            'username' = 'root', " +
-               "            'password' = '123', " +
-               "            'database-name' = 'mydb', " +
-               "           'table-name' = 'products' "   +
-               "  )  "
+                "CREATE TABLE products (\n" +
+                        " id INT,\n" +
+                        "    name STRING,\n" +
+                        "    description STRING,\n" +
+                        "    PRIMARY KEY (id) NOT ENFORCED \n" +
+                        ") WITH (\n" +
+                        "   'connector' = 'jdbc',\n" +
+                        "   'url' = 'jdbc:mysql://localhost:3306/mydb',\n" +
+                        "   'table-name' = 'products' ,\n" +
+                        "   'username' = 'root' ,\n" +
+                        "   'password' = '123' \n"+
+                        ")"
         );
 
 

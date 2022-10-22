@@ -8,7 +8,10 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 public class CommonConsumer {
 
@@ -27,14 +30,16 @@ public class CommonConsumer {
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "test_java_group");
 
         // 创建消费者对象
-        KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<>(properties);
+        KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<String, String>(properties);
 
         // 注册要消费的主题（可以消费多个主题）
-        ArrayList<String> topics = new ArrayList<>();
-        topics.add("java_test");
-        topics.add("binlog_data_pipe");
+//        ArrayList<String> topics = new ArrayList<>();
+//        topics.add("java_test");
+//        topics.add("mydb_products");
 
-        kafkaConsumer.subscribe(topics);
+        String topic = "mydb.*";
+        Pattern pattern = Pattern.compile(topic);
+        kafkaConsumer.subscribe(pattern);
         System.out.println("准备接收数据......");
         // 拉取数据打印
         while (true) {

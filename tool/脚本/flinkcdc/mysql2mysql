@@ -1,0 +1,35 @@
+
+1、目的表
+
+drop table mydb.products_flink;
+CREATE TABLE mydb.products_flink (
+  id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description VARCHAR(512)
+);
+ALTER TABLE mydb.products AUTO_INCREMENT = 101;
+
+-- flink创建表
+CREATE TABLE products(
+    id INT,
+    name STRING,
+    description STRING,
+    PRIMARY KEY (id) NOT ENFORCED
+  ) WITH (
+    'connector' = 'mysql-cdc',
+    'hostname' = 'localhost',
+    'port' = '3306',
+    'username' = 'root',
+    'password' = '123',
+    'database-name' = 'mydb',
+    'table-name' = 'products'
+  );
+
+
+ --数据同步
+ INSERT INTO products_flink
+ SELECT * FROM products;
+
+
+
+

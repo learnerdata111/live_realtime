@@ -33,3 +33,6 @@ SELECT * FROM products;
 
 
 chmod 644 flink-sql-connector-mysql-cdc-2.0.2.jar
+
+
+docker cp

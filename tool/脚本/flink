@@ -16,3 +16,7 @@ $ ./bin/stop-cluster.sh
 --终端socket数据写入
  nc -lk 9999
 
+-- flink sql
+每 3 秒做一次 checkpoint，用于测试，生产配置建议5到10分钟
+SET 'execution.checkpointing.interval' = '3s';
+

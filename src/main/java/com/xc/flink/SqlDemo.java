@@ -37,7 +37,7 @@ public class SqlDemo {
                             "work_amount VARCHAR \n" +
                             ") WITH (\n" +
                             "'connector' = 'jdbc',\n" +
-                            "'url' = 'jdbc:mysql://localhost:3306/data_pipe" +
+                            "'url' = 'jdbc:mysql2es://localhost:3306/data_pipe" +
                             "'table-name' = 'java_kafka_test',\n" +
                             "'username' = 'root',\n" +
                             "'password' = '123'\n" +
