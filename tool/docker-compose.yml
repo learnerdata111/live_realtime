@@ -1,31 +1,31 @@
 version: "3.1"
 
 services:
-  jobmanager:
-    image: flink:1.13.6
-    hostname: "jobmanager"
-    expose:
-      - "6123"
-    ports:
-      - "8082:8081"
-    command: jobmanager
-    environment:
-      - JOB_MANAGER_RPC_ADDRESS=jobmanager
-    depends_on:
-      - kafka
-      - mysql
-  taskmanager:
-    image: flink:1.13.6
-    expose:
-      - "6121"
-      - "6122"
-    depends_on:
-      - jobmanager
-    command: taskmanager
-    links:
-      - jobmanager:jobmanager
-    environment:
-      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+#  jobmanager:
+#    image: flink:1.13.6
+#    hostname: "jobmanager"
+#    expose:
+#      - "6123"
+#    ports:
+#      - "8082:8081"
+#    command: jobmanager
+#    environment:
+#      - JOB_MANAGER_RPC_ADDRESS=jobmanager
+#    depends_on:
+#      - kafka
+#      - mysql
+#  taskmanager:
+#    image: flink:1.13.6
+#    expose:
+#      - "6121"
+#      - "6122"
+#    depends_on:
+#      - jobmanager
+#    command: taskmanager
+#    links:
+#      - jobmanager:jobmanager
+#    environment:
+#      - JOB_MANAGER_RPC_ADDRESS=jobmanager
   zookeeper:
     image: bitnami/zookeeper:3.7.0
     ports:
@@ -54,7 +54,6 @@ services:
       - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
     restart: unless-stopped
-
     networks:
       - canal
 
@@ -81,7 +80,7 @@ services:
       - 11111:11111
     volumes:
       - ./conf/canal.properties:/home/admin/canal-server/conf/canal.properties
-      - ./conf/instance.properties:/home/admin/canal-server/conf/data_pipe/instance.properties
+      - ./conf/instance.properties:/home/admin/canal-server/conf/mydb/instance.properties
     restart: unless-stopped
     networks:
       - canal

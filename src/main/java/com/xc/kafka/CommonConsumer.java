@@ -33,9 +33,10 @@ public class CommonConsumer {
         KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<String, String>(properties);
 
         // 注册要消费的主题（可以消费多个主题）
-//        ArrayList<String> topics = new ArrayList<>();
+        ArrayList<String> topics = new ArrayList<>();
 //        topics.add("java_test");
 //        topics.add("mydb_products");
+//        kafkaConsumer.subscribe(topics);
 
         String topic = "mydb.*";
         Pattern pattern = Pattern.compile(topic);
