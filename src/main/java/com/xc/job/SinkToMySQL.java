@@ -70,7 +70,7 @@ public class SinkToMySQL extends RichSinkFunction<ProductJson.DataDTO> {
     private static Connection getConnection() {
         Connection con = null;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             //注意，替换成自己本地的 mysql 数据库地址和用户名、密码
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?useUnicode=true&characterEncoding=utf-8&useSSL=false", "root", "123");
         } catch (Exception e) {

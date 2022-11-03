@@ -64,20 +64,6 @@ public class Kafka2Mysql {
         //写入到mysql
         data_stram.addSink(new SinkToMySQL());
 
-//        data_stram.addSink(JdbcSink.sink("INSERT INTO products_test (id, name,description) VALUES (?,?,?)",
-//                (statement, r) -> {
-//                    statement.setString(1, r.getId());
-//                    statement.setString(2, r.getName());
-//                    statement.setString(3, r.getDescription());
-//                    statement.executeUpdate();
-//                },
-//                new JdbcConnectionOptions.JdbcConnectionOptionsBuilder()
-//                        .withUrl("jdbc:mysql://localhost:3306/mydb?useUnicode=true&characterEncoding=utf-8&useSSL=false")
-//                        .withDriverName("com.mysql.cj.jdbc.Driver")
-//                        .withUsername("root")
-//                        .withPassword("123")
-//                        .build())
-//                );
 
 
         env.execute();
