@@ -8,3 +8,6 @@ kafka.bootstrap.servers=kafka:9092
 # data_pipe/instance.properties
 canal.instance.master.address=mysql:3306
 canal.mq.topic=binlog_data_pipe
+
+
+canal 生成新的topic需要重启

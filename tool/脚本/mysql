@@ -10,3 +10,44 @@ GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'canal'@'%';
 FLUSH PRIVILEGES;
 
 
+-- MySQL
+CREATE DATABASE mydb;
+USE mydb;
+CREATE TABLE products (
+  id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description VARCHAR(512)
+);
+ALTER TABLE products AUTO_INCREMENT = 101;
+
+INSERT INTO products
+VALUES (default,"scooter","Small 2-wheel scooter"),
+       (default,"car battery","12V car battery"),
+       (default,"12-pack drill bits","12-pack of drill bits with sizes ranging from #40 to #3"),
+       (default,"hammer","12oz carpenter's hammer"),
+       (default,"hammer","14oz carpenter's hammer"),
+       (default,"hammer","16oz carpenter's hammer"),
+       (default,"rocks","box of assorted rocks"),
+       (default,"jacket","water resistent black wind breaker"),
+       (default,"spare tire","24 inch spare tire");
+
+
+
+-- state sql
+
+CREATE TABLE `anchor_order_time` (
+   order_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '订单时间',
+   create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `anchor_id` varchar(55) DEFAULT NULL,
+  `anchor_name` varchar(55) DEFAULT NULL,
+  `order_id` varchar(55) DEFAULT NULL,
+  `sale_type` varchar(55) DEFAULT NULL,
+  `item_type` varchar(55) DEFAULT NULL,
+  `order_amount` bigint DEFAULT NULL,
+  `item_num` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+
+INSERT INTO anchor_order_time
+VALUES (now(),now(),'a_1','辛总','o_1','直播','服装','89','3'),
+(DATE_ADD(now(),INTERVAL 1 hour),now(),'a_1','辛总','o_2','直播','服装','80','1')

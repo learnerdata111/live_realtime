@@ -53,13 +53,19 @@ public class Kafka2Mysql {
                 Gson gson = new Gson();
                 ProductJson product = gson.fromJson(s, new TypeToken<ProductJson>() {
                 }.getType());
-                for(ProductJson.DataDTO record:product.getData()){
-                    out.collect(record);
+                if (product.getData() == null){
+                    out.collect(new ProductJson.DataDTO());
                 }
+                else{
+                    for(ProductJson.DataDTO record:product.getData()){
+                        out.collect(record);
+                    }
+                }
+
             }
         });
 
-
+        stream.print();
         data_stram.print();
         //写入到mysql
         data_stram.addSink(new SinkToMySQL());
