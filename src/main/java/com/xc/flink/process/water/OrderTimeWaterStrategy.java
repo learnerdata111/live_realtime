@@ -23,16 +23,7 @@ public class OrderTimeWaterStrategy implements WatermarkStrategy<AnchorOrderTime
         return new TimestampAssigner<AnchorOrderTimeJson.DataDTO>() {
             @Override
             public long extractTimestamp(AnchorOrderTimeJson.DataDTO dataDTO, long recordTimestamp) {
-                String ordertime =  dataDTO.getOrderTime();
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date orderdatetime = null;
-                try {
-                    orderdatetime = format.parse(ordertime);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                long startDay = (long) (orderdatetime.getTime() / 1000);
-                return startDay;
+                return dataDTO.getOrderTime()*1000L;
             }
         };
     }

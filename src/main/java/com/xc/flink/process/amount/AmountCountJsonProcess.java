@@ -1,4 +1,4 @@
-package com.xc.flink.process;
+package com.xc.flink.process.amount;
 
 import com.xc.flink.model.AnchorOrderJson;
 import com.xc.flink.model.ItemCountJoin;

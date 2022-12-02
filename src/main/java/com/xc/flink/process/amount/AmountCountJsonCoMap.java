@@ -1,4 +1,4 @@
-package com.xc.flink.process;
+package com.xc.flink.process.amount;
 
 import com.xc.flink.model.ItemCount;
 import com.xc.flink.model.ItemCountJoin;

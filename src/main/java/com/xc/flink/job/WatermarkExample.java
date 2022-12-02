@@ -2,26 +2,17 @@ package com.xc.flink.job;
 
 import com.xc.flink.model.AnchorOrderTimeJson;
 import com.xc.flink.model.ItemCount;
-import com.xc.flink.process.AmountCountTimeJsonFlatMap;
+import com.xc.flink.process.amount.AmountCountTimeJsonFlatMap;
 import com.xc.flink.process.water.OrderTimeApply;
-import com.xc.flink.process.water.OrderTimeAssigner;
 import com.xc.flink.process.water.OrderTimeWaterStrategy;
-import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
-import org.apache.flink.api.common.eventtime.WatermarkGenerator;
-import org.apache.flink.api.common.eventtime.WatermarkGeneratorSupplier;
-import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
-import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.util.Date;
 import java.util.Properties;
 
 public class WatermarkExample {
@@ -47,25 +38,33 @@ public class WatermarkExample {
                 new SimpleStringSchema(),
                 properties
         );
-//        //分配时间和水位线
-//        kafkaSource.assignTimestampsAndWatermarks(
-//                WatermarkStrategy
-//                        .forBoundedOutOfOrderness(Duration.ofSeconds(20)));
-
+//       分配时间和水位线
+//       kafkaSource.assignTimestampsAndWatermarks(
+//         WatermarkStrategy
+//       .forBoundedOutOfOrderness(Duration.ofSeconds(20)));
         //json流
         //水位线策略
         DataStream stream = env.addSource(kafkaSource).name("add_source");
+        //内置水位线
+        //无序流的watermark生成 --设置延迟事件2s
+//        DataStream<AnchorOrderTimeJson.DataDTO> flatmap_stream = stream.flatMap(new AmountCountTimeJsonFlatMap())
+//                .assignTimestampsAndWatermarks(WatermarkStrategy.<AnchorOrderTimeJson.DataDTO>forBoundedOutOfOrderness(Duration.ofSeconds(2))
+//                .withTimestampAssigner( (event, timestamp) -> event.getOrderTime()*1000L
+//            ));
+
         DataStream<AnchorOrderTimeJson.DataDTO> flatmap_stream = stream.flatMap(new AmountCountTimeJsonFlatMap())
-                .assignTimestampsAndWatermarks(new OrderTimeWaterStrategy())
-                ;
+                .assignTimestampsAndWatermarks(new OrderTimeWaterStrategy());
 
         //根据订单时间的窗口统计 TumblingEventTimeWindows
         //基于窗口处理时间统计 TumblingProcessingTimeWindows
-        DataStream<ItemCount> apply_stream = flatmap_stream.keyBy(value ->value.getAnchorId())
-                .window(TumblingEventTimeWindows.of(Time.seconds(5)))
-                .apply(new OrderTimeApply() );
+//        SingleOutputStreamOperator<BigDecimal> apply_stream = flatmap_stream.keyBy(value ->value.getAnchorId())
+//                .window(TumblingProcessingTimeWindows.of(Time.seconds(5)))
+//                .aggregate(new OrderTimeAggreate());
 
-        flatmap_stream.print();
+        SingleOutputStreamOperator<ItemCount> apply_stream = flatmap_stream.keyBy(value ->value.getAnchorId())
+                .window(TumblingEventTimeWindows.of(Time.seconds(5)))
+                .apply(new OrderTimeApply());
+
         apply_stream.print();
         env.execute("waterExample");
 

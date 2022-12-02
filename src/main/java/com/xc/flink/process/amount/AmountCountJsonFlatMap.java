@@ -1,4 +1,4 @@
-package com.xc.flink.process;
+package com.xc.flink.process.amount;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

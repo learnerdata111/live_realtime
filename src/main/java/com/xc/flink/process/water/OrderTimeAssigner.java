@@ -12,23 +12,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class OrderTimeAssigner implements WatermarkGenerator<AnchorOrderTimeJson.DataDTO> {
-    private final long maxTimeLag = 5000; // 1 秒
+    private final long maxTimeLag =  2000; // 2 秒
     @Override
     public void onEvent(AnchorOrderTimeJson.DataDTO event, long eventTimestamp, WatermarkOutput output) {
-        String ordertime =  event.getOrderTime();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        try {
-            Date orderdatetime = format.parse(ordertime);
-            long startDay = (long) (orderdatetime.getTime() / 1000);
-            long newTimestamp = Math.max(startDay, eventTimestamp);
-            output.emitWatermark(new Watermark(newTimestamp - maxTimeLag));
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-
+            long ordertime = event.getOrderTime()*1000L;
+            long newTimestamp = Math.max(ordertime, eventTimestamp);
+            System.out.println(newTimestamp - maxTimeLag);
+            output.emitWatermark(new Watermark(newTimestamp - maxTimeLag-1));
     }
 
     @Override

@@ -69,9 +69,9 @@ public class AnchorOrderTimeJson {
   @Data
   public static class DataDTO {
     @SerializedName("order_time")
-    private String orderTime;
+    private int orderTime;
     @SerializedName("create_time")
-    private String createTime;
+    private int createTime;
     @SerializedName("anchor_id")
     private String anchorId;
     @SerializedName("anchor_name")
